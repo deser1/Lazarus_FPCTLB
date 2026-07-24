@@ -1,0 +1,50 @@
+[
+  uuid(12345678-1234-1234-1234-1234567890AB),
+  version(1.0),
+  helpstring("Biblioteka testowa z Free Pascala (Enum, DispInterface, Coclass, Struct, SafeArray)")
+]
+library MyTestLib
+{
+  importlib("stdole2.tlb");
+
+  typedef enum MyColor {
+    ColorRed = 1,
+    ColorGreen = 2,
+    ColorBlue = 5
+  } MyColor;
+
+  typedef struct MyDataStruct {
+    long id;
+    BSTR description;
+  } MyDataStruct;
+
+  [
+    uuid(87654321-4321-4321-4321-BA0987654321),
+    oleautomation,
+    dual
+  ]
+  interface IMyInterface : IUnknown
+  {
+    [id(1)] HRESULT SayHello([in] BSTR name, [out, retval] BSTR* greeting);
+    [id(2)] HRESULT GetColor([out, retval] long* colorValue);
+    [id(3)] HRESULT ProcessData([in] MyDataStruct* data, [out, retval] SAFEARRAY(BSTR)* results);
+  }
+
+  [
+    uuid(99999999-4321-4321-4321-BA0987654321)
+  ]
+  dispinterface IMyEvents
+  {
+    [id(1)] HRESULT OnClick([in] long x, [in] long y);
+  }
+
+  [
+    uuid(11111111-2222-3333-4444-555555555555),
+    helpstring("Klasa implementujaca glowne interfejsy")
+  ]
+  coclass MyComponent
+  {
+    [default] interface IMyInterface;
+    [source] dispinterface IMyEvents;
+  }
+}

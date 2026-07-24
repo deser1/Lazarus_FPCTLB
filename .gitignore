@@ -1,0 +1,20 @@
+# Lazarus and Free Pascal compiler generated files
+*.exe
+*.dll
+*.so
+*.dylib
+*.lps
+*.compiled
+*.res
+*.o
+*.or
+*.ppu
+*.a
+*.~*
+*.bak
+backup/
+lib/
+
+# OS generated files
+.DS_Store
+Thumbs.db
