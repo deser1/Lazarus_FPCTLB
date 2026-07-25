@@ -37,6 +37,10 @@ end;
 
 function TMyComponent.ProcessData(data: PMyDataStruct; results: PSafeArray): HRESULT; safecall;
 begin
+  // Unikamy ostrzeżeń o nieużywanych parametrach (Hints)
+  if Assigned(data) then { nic };
+  if Assigned(results) then { nic };
+  
   // Tutaj np. operacje na strukturach
   Result := S_OK;
 end;
