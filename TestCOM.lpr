@@ -1,6 +1,7 @@
 program TestCOM;
 
 {$mode objfpc}{$H+}
+{$APPTYPE CONSOLE} // Wymusza na Lazarusie/Windowsie otwarcie widocznego okna konsoli!
 
 uses
   SysUtils, Classes, ComObj, ActiveX, 
@@ -46,28 +47,34 @@ var
   ReturnedGreeting: WideString;
   ColorValue: Integer;
 begin
-  Writeln('--- Rozpoczynam test OLE ---');
-  
-  // 1. Inicjalizacja biblioteki COM
-  CoInitialize(nil);
+  try
+    Writeln('--- Rozpoczynam test OLE ---');
+    
+    // 1. Inicjalizacja biblioteki COM
+    CoInitialize(nil);
 
-  // 2. Tworzymy instancję naszej klasy i przypisujemy do zmiennej interfejsowej
-  MyObj := TMyComponent.Create as IMyInterface;
+    // 2. Tworzymy instancję naszej klasy i przypisujemy do zmiennej interfejsowej
+    MyObj := TMyComponent.Create as IMyInterface;
 
-  // 3. Test metody SayHello
-  MyObj.SayHello('Dominik', @ReturnedGreeting);
-  Writeln('Wynik SayHello: ', ReturnedGreeting);
+    // 3. Test metody SayHello
+    MyObj.SayHello('Dominik', @ReturnedGreeting);
+    Writeln('Wynik SayHello: ', ReturnedGreeting);
 
-  // 4. Test metody GetColor
-  MyObj.GetColor(@ColorValue);
-  if ColorValue = ColorGreen then
-    Writeln('Wynik GetColor: Sukces! Odebrano kolor zielony (', ColorValue, ')');
+    // 4. Test metody GetColor
+    MyObj.GetColor(@ColorValue);
+    if ColorValue = ColorGreen then
+      Writeln('Wynik GetColor: Sukces! Odebrano kolor zielony (', ColorValue, ')');
 
-  // 5. Sprzątanie
-  MyObj := nil; // Interfejsy zwalniają się automatycznie (Reference Counting)
-  CoUninitialize();
+    // 5. Sprzątanie
+    MyObj := nil; // Interfejsy zwalniają się automatycznie (Reference Counting)
+    CoUninitialize();
 
-  Writeln('--- Test zakonczony ---');
+    Writeln('--- Test zakonczony ---');
+  except
+    on E: Exception do
+      Writeln('Wystapil blad: ', E.Message);
+  end;
+
   Writeln('Nacisnij ENTER, aby zakonczyc...');
   Readln;
 end.
