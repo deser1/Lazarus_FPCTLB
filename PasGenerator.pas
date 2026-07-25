@@ -110,7 +110,7 @@ begin
     else if Result = 'WideString' then Result := 'PWideString'
     else if Result = 'OleVariant' then Result := 'POleVariant'
     else if Result = 'HRESULT' then Result := 'PHRESULT'
-    else Result := 'P' + Result; // np. PIMyInterface
+    else Result := 'P' + Result; // Dodaj 'P' dla pozostałych wskaźników (np. struktur)
   end;
 end;
 
@@ -164,6 +164,12 @@ var
 begin
   if Lib.Structs.Count = 0 then Exit;
   FOutput.Add('type');
+  for I := 0 to Lib.Structs.Count - 1 do
+  begin
+    S := TIDLStruct(Lib.Structs[I]);
+    FOutput.Add('  P' + S.Name + ' = ^' + S.Name + ';');
+  end;
+  FOutput.Add('');
   for I := 0 to Lib.Structs.Count - 1 do
   begin
     S := TIDLStruct(Lib.Structs[I]);
