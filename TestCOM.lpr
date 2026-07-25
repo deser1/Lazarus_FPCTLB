@@ -68,5 +68,7 @@ begin
   CoUninitialize();
 
   Writeln('--- Test zakonczony ---');
-  // Readln; // Odkomentuj, aby zatrzymać konsolę przed zamknięciem
+  Writeln('Nacisnij ENTER, aby zakonczyc...');
+  Readln;
 end.
+
